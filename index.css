@@ -1,0 +1,24 @@
+@import url(https://unpkg.com/fixedsys-css/css/fixedsys.css);
+@import url(https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap);
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  box-sizing: border-box;
+  font-family: 'Poppins';
+  background-color: #dfefff;
+  color: #444;
+}
+:root {
+  btn-color: #6a93f8;
+  btn-light-color: #88abff;
+}
+
+.container {
+  background-color: #dfefff;
+  width: 100%;
+  height: fit-content;
+  display: grid;
+  place-items: center;
+}

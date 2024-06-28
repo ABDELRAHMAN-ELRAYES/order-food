@@ -21,6 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 .in-container {
   display: flex;
@@ -138,6 +139,7 @@ body {
   font-weight: 800;
   font-family: 'Playwrite NG Modern', cursive;
   transition: 0.4s;
+  cursor: pointer;
 }
 .order-btn:hover,
 .checkout-btn:hover,
@@ -166,6 +168,7 @@ body {
   padding-right: 1rem;
   padding-left: 1rem;
   width: fit-content;
+  cursor: pointer;
 }
 .order {
   overflow-y: scroll;
@@ -189,6 +192,16 @@ body {
 .order-element h2 {
   font-size: 1.25rem;
 }
+.delete-element {
+  transform: rotate(90deg);
+  transition: 0.5s;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.delete-element:hover {
+  transform: rotate(-180deg);
+  color: red;
+}
 .order-icon {
   display: flex;
 }
@@ -208,6 +221,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.hidden {
+  display: none;
 }
 @media (max-width: 950px) {
   .in-container {

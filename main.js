@@ -68,12 +68,12 @@ const stockMenu = [
   ['Shrimp Scampi', 16.5],
   ['Caesar Salad', 9.25],
 ];
+let order = [];
 //show some suggested meal for quick choose
 let sugMealsMap = new Map(sugMeals);
 let insertSugMeals = function () {
-  let counter = 1;
   sugMealsMap.forEach((val, meal) => {
-    let elMeal = `<div class="sug-meal sug-meal${counter++}">${meal}</div>`;
+    let elMeal = `<div class="sug-meal">${meal}</div>`;
     sugRow.insertAdjacentHTML('beforeend', elMeal);
   });
 };
@@ -95,26 +95,32 @@ let insertStockMenu = function () {
   });
 };
 insertStockMenu();
-
+//a function to lowercase and delete spaces from string
+let lowMealFormat = str => str.toLowerCase().replace(/ /g, '');
 //insert the order elements cards
+
 let totalOrderPrice = 0;
+let countElements = 0;
+let insertElementInOrder = function (price, meal) {
+  let elMeal = `<div class="order-element">
+  <div class="order-icon">
+  <i class="fa-solid fa-minus delete-element delete-element${++countElements}"></i>
+  <i class="fa-solid fa-bowl-food"></i>
+            <h2 class="order-element-name order-element-name1">${meal}</h2>
+          </div>
+          <h2 class="order-price order-price1">${String(
+            price.toFixed(2)
+          ).padStart(5, '0')}$</h2>
+        </div>`;
+  order.push(meal);
+  orderCont.insertAdjacentHTML('afterbegin', elMeal);
+};
+// add the required meal to order elements when click on the order btn
 orderBtn.addEventListener('click', () => {
   if (orderedMeal.value !== '') {
     stockMenuMap.forEach((price, meal) => {
-      if (
-        meal.toLowerCase().replace(/ /g, '') ===
-        orderedMeal.value.toLowerCase().replace(/ /g, '')
-      ) {
-        let elMeal = `<div class="order-element">
-                <div class="order-icon">
-                  <i class="fa-solid fa-bowl-food"></i>
-                  <h2 class="order-element-name order-element-name1">${meal}</h2>
-                </div>
-                <h2 class="order-price order-price1">${String(
-                  price.toFixed(2)
-                ).padStart(5, '0')}$</h2>
-              </div>`;
-        orderCont.insertAdjacentHTML('afterbegin', elMeal);
+      if (lowMealFormat(meal) === lowMealFormat(orderedMeal.value)) {
+        insertElementInOrder(price, meal);
         totalOrderPrice += price;
         totalCheck.textContent = totalOrderPrice.toFixed(2);
         orderedMeal.value = '';
@@ -122,3 +128,34 @@ orderBtn.addEventListener('click', () => {
     });
   }
 });
+
+// add the feature of click on the suggested meals to directly added to the order
+sugRow.addEventListener('click', event => {
+  sugMealsMap.forEach((price, meal) => {
+    if (lowMealFormat(event.target.textContent) === lowMealFormat(meal)) {
+      insertElementInOrder(price, meal);
+      totalOrderPrice += price;
+      totalCheck.textContent = totalOrderPrice.toFixed(2);
+    }
+  });
+});
+// delete selected meal from order list
+orderCont.addEventListener('click', event => {
+  let parent = event.target.parentNode.parentNode;
+  let curElement = parent.querySelector('.order-element-name');
+  stockMenuMap.forEach((price, meal) => {
+    if (
+      order.find(
+        elm => lowMealFormat(meal) === lowMealFormat(curElement.textContent)
+      )
+    ) {
+      totalOrderPrice -= price;
+      totalCheck.textContent = totalOrderPrice.toFixed(2);
+      parent.classList.add('hidden');
+      order.splice(order.indexOf(meal), 1);
+    }
+  });
+});
+// checkout
+// make order cart
+// make meals not frequent in order list

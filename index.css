@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
 }
+/* #e76d08 */
 body {
   box-sizing: border-box;
   font-family: 'Poppins';
@@ -20,6 +21,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.in-container {
+  display: flex;
 }
 .header {
   width: 96%;
@@ -41,7 +45,7 @@ body {
   align-items: center;
 }
 .logo img {
-  height: 60px;
+  height: 50px;
   margin-right: 0.5rem;
 }
 .header h1 {
@@ -53,7 +57,30 @@ body {
   margin-left: 0.5rem;
   font-size: 30px;
 }
-
+.stock-menu {
+  height: 51rem;
+  width: 22rem;
+  background-color: #fff9ed;
+  margin-left: 2rem;
+  border-radius: 0.5rem;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+}
+.stock-menu h1 {
+  font-family: 'Playwrite NG Modern', cursive;
+  margin-bottom: 2rem;
+}
+.menu-meal {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid #441a0635;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+}
 .content {
   width: 75rem;
   height: 45rem;
@@ -110,24 +137,20 @@ body {
   font-size: 1rem;
   font-weight: 800;
   font-family: 'Playwrite NG Modern', cursive;
+  transition: 0.4s;
+}
+.order-btn:hover,
+.checkout-btn:hover,
+.sug-meal:hover {
+  transform: translateX(0.7rem);
 }
 .suggested-meals {
   width: 35.5rem;
   height: 10rem;
   border-radius: 0.5rem;
-  display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   padding: 1rem;
-}
-.sug-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
-}
-.sug-row1,
-.sug-row3 {
-  padding-right: 2rem;
-  padding-left: 2rem;
 }
 .sug-meal {
   background-color: #ffe1a9;
@@ -139,6 +162,10 @@ body {
   margin-bottom: 0.5rem;
   margin-right: 1rem;
   font-weight: 800;
+  transition: 0.4s;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  width: fit-content;
 }
 .order {
   overflow-y: scroll;
@@ -154,6 +181,10 @@ body {
 }
 .order-element:last-child {
   border: none;
+}
+.order-element:hover,
+.menu-meal:hover {
+  background-color: #bdbcbc32;
 }
 .order-element h2 {
   font-size: 1.25rem;
@@ -179,8 +210,11 @@ body {
   justify-content: space-between;
 }
 @media (max-width: 950px) {
+  .in-container {
+    width: 96%;
+  }
   .content {
-    width: 47rem;
+    width: 42rem;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }
@@ -188,8 +222,12 @@ body {
     border-bottom: none;
   }
   .total-checkout {
-    width: 42rem;
+    width: 37rem;
     margin-bottom: 1rem;
+  }
+  .menu-meal {
+    flex-wrap: wrap;
+    font-size: 0.75rem;
   }
 }
 @media (max-width: 450px) {

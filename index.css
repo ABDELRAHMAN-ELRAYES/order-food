@@ -49,7 +49,7 @@ body {
   height: 50px;
   margin-right: 0.5rem;
 }
-.header h1 {
+.header .title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -127,7 +127,8 @@ body {
   outline: none;
 }
 .order-btn,
-.checkout-btn {
+.checkout-btn,
+.new-order-btn {
   height: 2.5rem;
   width: 13rem;
   margin-left: 2rem;
@@ -174,6 +175,12 @@ body {
   overflow-y: scroll;
   background-color: #ffe1a9;
 }
+.order::-webkit-scrollbar {
+  display: none;
+}
+.stock-menu::-webkit-scrollbar {
+  display: none;
+}
 .order-element {
   width: 100%;
   height: 5rem;
@@ -186,8 +193,8 @@ body {
   border: none;
 }
 .order-element:hover,
-.menu-meal:hover {
-  background-color: #bdbcbc32;
+.checked-order:hover {
+  background-color: #fff9ed48;
 }
 .order-element h2 {
   font-size: 1.25rem;
@@ -202,8 +209,11 @@ body {
   transform: rotate(-180deg);
   color: red;
 }
-.order-icon {
+.order-icon,
+.order-info {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .order-icon i {
   display: flex;
@@ -225,6 +235,63 @@ body {
 .hidden {
   display: none;
 }
+
+.orders-cart {
+  width: 21rem;
+  height: fit-content;
+  position: absolute;
+  background-color: #ffe1a9;
+  top: 7%;
+  left: 81%;
+  border-radius: 0.5rem;
+  border-top: 0.4rem solid #441a06;
+  border-bottom: 0.4rem solid #441a06;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  max-height: 30rem;
+  overflow-y: scroll;
+}
+.orders-cart::-webkit-scrollbar {
+  display: none;
+}
+.orders-cart::before {
+  content: '';
+  position: fixed;
+  border-width: 1rem;
+  border-style: solid;
+  border-color: transparent transparent #441a06 transparent;
+  top: 4.1%;
+  right: 6%;
+}
+.close-orders-btn {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+}
+.orders-cart i {
+  font-size: 1.5rem;
+}
+.checked-order {
+  width: 92%;
+  height: 5rem;
+  border-bottom: 1px solid #441a0635;
+  display: grid;
+  font-size: 9px;
+  padding: 0.5rem;
+}
+.checked-order .order-date {
+  font-size: 0.7rem;
+}
+.new-order-btn {
+  margin-top: 1rem;
+  background-color: transparent;
+  color: #441a06;
+  margin-left: 4.5rem;
+}
+.new-order-btn:hover {
+  transform: translateY(0.7rem);
+}
+
 @media (max-width: 950px) {
   .in-container {
     width: 96%;
@@ -244,6 +311,9 @@ body {
   .menu-meal {
     flex-wrap: wrap;
     font-size: 0.75rem;
+  }
+  .orders-cart {
+    left: 63%;
   }
 }
 @media (max-width: 450px) {

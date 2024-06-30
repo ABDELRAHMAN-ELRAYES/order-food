@@ -6,6 +6,11 @@ let orderBtn = document.querySelector('.order-btn');
 let orderCont = document.querySelector('.order');
 let totalCheck = document.querySelector('.total-check');
 let checkoutBtn = document.querySelector('.checkout-btn');
+let orderCartBtn = document.querySelector('.order-cart');
+let ordersCart = document.getElementById('orders-cart');
+let closeOrdersBtn = document.querySelector('.close-orders-btn');
+let innerOrdersCart = document.querySelector('.inner-orders-cart');
+let newOrderBtn = document.querySelector('.new-order-btn');
 const sugMeals = [
   ['Fish', 15.75],
   ['Grilled Chicken', 10.99],
@@ -68,7 +73,12 @@ const stockMenu = [
   ['Shrimp Scampi', 16.5],
   ['Caesar Salad', 9.25],
 ];
-let order = [];
+let samePersonOrders = [];
+let order = {
+  orderElements: [],
+  totalPrice: 0,
+  orderDate: '',
+};
 //show some suggested meal for quick choose
 let sugMealsMap = new Map(sugMeals);
 let insertSugMeals = function () {
@@ -112,8 +122,10 @@ let insertElementInOrder = function (price, meal) {
             price.toFixed(2)
           ).padStart(5, '0')}$</h2>
         </div>`;
-  order.push(meal);
+  order.orderElements.push(meal);
+  order.totalPrice += price;
   orderCont.insertAdjacentHTML('afterbegin', elMeal);
+  Math.abs(order.totalPrice).toFixed(2);
 };
 // add the required meal to order elements when click on the order btn
 orderBtn.addEventListener('click', () => {
@@ -145,17 +157,66 @@ orderCont.addEventListener('click', event => {
   let curElement = parent.querySelector('.order-element-name');
   stockMenuMap.forEach((price, meal) => {
     if (
-      order.find(
+      order.orderElements.find(
         elm => lowMealFormat(meal) === lowMealFormat(curElement.textContent)
-      )
+      ) &&
+      event.target.nodeName === 'I'
     ) {
       totalOrderPrice -= price;
-      totalCheck.textContent = totalOrderPrice.toFixed(2);
+      totalCheck.textContent = Math.abs(totalOrderPrice).toFixed(2);
       parent.classList.add('hidden');
-      order.splice(order.indexOf(meal), 1);
+      order.orderElements.splice(order.orderElements.indexOf(meal), 1);
+      order.totalPrice -= price;
+      Math.abs(order.totalPrice).toFixed(2);
     }
   });
 });
+
+//show the orders cart
+orderCartBtn.addEventListener('click', () => {
+  ordersCart.classList.remove('hidden');
+});
+closeOrdersBtn.addEventListener('click', () => {
+  ordersCart.classList.add('hidden');
+});
+document.addEventListener('click', event => {
+  if (!event.target.closest('.order-cart')) {
+    ordersCart.classList.add('hidden');
+  }
+});
 // checkout
-// make order cart
+checkoutBtn.addEventListener('click', () => {
+  if (order.totalPrice !== 0) {
+    order.orderDate = new Date().toISOString();
+    samePersonOrders.push(order);
+    let elm = `<div class="checked-order order${samePersonOrders.length}">
+              <div class="order-info"><div class="order-icon">
+                <i class="fa-solid fa-bowl-food"></i>
+                <h1 class="order-name">Order ${samePersonOrders.length}</h1>
+              </div>
+              <h2 class="order-price">${order.totalPrice.toFixed(2)}$</h2></div>
+              <h2 class="order-date">${new Intl.DateTimeFormat('en-UK', {
+                day: 'numeric',
+                month: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+              }).format(new Date(order.orderDate))}</h2>
+            </div>`;
+    innerOrdersCart.insertAdjacentHTML('beforeend', elm);
+    order = { orderElements: [], totalPrice: 0 };
+    totalOrderPrice = 0;
+    totalCheck.textContent = '0,000';
+    orderCont.innerHTML = '';
+  }
+});
+// new order
+newOrderBtn.addEventListener('click', () => {
+  order = { orderElements: [], totalPrice: 0 };
+  totalOrderPrice = 0;
+  totalCheck.textContent = '0,000';
+  orderCont.innerHTML = '';
+});
+//delete complete order
+//view checked out order
 // make meals not frequent in order list
